@@ -16,7 +16,7 @@ class Network:
         self.layers.append(input_layer)
 
     def add_layer(self, n_neurons, f):
-        n_neurons_previous_layer = self.layers[-1].n_inputs
+        n_neurons_previous_layer = self.layers[-1].n_neurons
         new_layer = Layer(n_neurons_previous_layer, n_neurons, f, is_input=False)
         self.layers.append(new_layer)
         self.n_layers += 1
@@ -29,14 +29,18 @@ class Network:
         for neuron_n in range(len(inputs)):
             self.layers[0].neurons[neuron_n].a = inputs[neuron_n]
 
+    def get_outputs(self):
+        outputs = [neuron.a for neuron in self.layers[self.n_layers - 1].neurons]
+        return outputs
+
     def set_all_weights_to(self, new_weight):
         [layer.set_all_weights_to(new_weight) for layer in self.layers]
 
     def forward_propagate(self):
         for layer_n in range(1, self.n_layers):
-            layer_neuron_n = len(self[layer_n].neurons)
-            current_layer: Layer = self[layer_n]
-            previous_layer: Layer = self[layer_n - 1]
+            layer_neuron_n = self.layers[layer_n].n_neurons
+            current_layer: Layer = self.layers[layer_n]
+            previous_layer: Layer = self.layers[layer_n - 1]
 
             for neuron_n in range(layer_neuron_n):
                 current_neuron: Neuron = current_layer.neurons[neuron_n]
