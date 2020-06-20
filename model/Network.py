@@ -62,3 +62,19 @@ class Network:
 
                 current_neuron.z = neuron_z + current_neuron.bias
                 current_neuron.compute_a()
+
+    def backward_propagate(self):
+        # last layer error term
+        [neuron.set_error_term( (neuron.desired_output - neuron.a) * neuron.compute_a_derivative() ) for neuron in self.last_layer.neurons]
+
+        # propagate error backwards
+        for layer_n in range(self.n_layers - 2, 0, -1):
+            print('processing layer n: ', layer_n)
+            for neuron_n in range(self.layers[layer_n].n_neurons):
+                neuron = self.layers[layer_n].neurons[neuron_n]
+                error_term = 0
+                for next_layer_neuron in self.layers[layer_n + 1].neurons:
+                    error_term += next_layer_neuron.error_term * next_layer_neuron.weights[neuron_n] * neuron.compute_a_derivative()
+
+                neuron.error_term = error_term
+
