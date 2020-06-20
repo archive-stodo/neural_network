@@ -13,3 +13,7 @@ class Neuron:
 
     def compute_a(self):
         self.a = self.f.value(self.z)
+
+    def set_all_weights_to(self, new_weight):
+        self.weights = []
+        [self.weights.append(new_weight) for i in range(self.n_inputs)]

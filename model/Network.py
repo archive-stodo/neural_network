@@ -29,6 +29,9 @@ class Network:
         for neuron_n in range(len(inputs)):
             self.layers[0].neurons[neuron_n].a = inputs[neuron_n]
 
+    def set_all_weights_to(self, new_weight):
+        [layer.set_all_weights_to(new_weight) for layer in self.layers]
+
     def forward_propagate(self):
         for layer_n in range(1, self.n_layers):
             layer_neuron_n = len(self[layer_n].neurons)
