@@ -10,3 +10,6 @@ class Neuron:
         self.z = 0
         self.a = 0
         self.error_term = 0
+
+    def compute_a(self):
+        self.a = self.f.value(self.z)
