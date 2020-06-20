@@ -10,6 +10,7 @@ class Network:
         self.layers = []
         self.add_input_layer(n_inputs)
         self.n_layers = 1
+        self.last_layer = self.layers[self.n_layers - 1]
 
     def add_input_layer(self, n_inputs):
         input_layer = Layer(n_inputs, n_inputs, Linear, True)
@@ -20,6 +21,7 @@ class Network:
         new_layer = Layer(n_neurons_previous_layer, n_neurons, f, is_input=False)
         self.layers.append(new_layer)
         self.n_layers += 1
+        self.last_layer = self.layers[self.n_layers - 1]
 
 
     def set_inputs(self, inputs):
@@ -28,6 +30,13 @@ class Network:
 
         for neuron_n in range(len(inputs)):
             self.layers[0].neurons[neuron_n].a = inputs[neuron_n]
+
+    def set_desired_outputs(self, outputs):
+        if len(outputs) != self.last_layer.n_neurons:
+            raise Exception('wrong output size')
+
+        for neuron_n in range(len(outputs)):
+            self.last_layer.neurons[neuron_n].desired_output = outputs[neuron_n]
 
     def get_outputs(self):
         outputs = [neuron.a for neuron in self.layers[self.n_layers - 1].neurons]

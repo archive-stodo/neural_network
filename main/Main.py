@@ -7,6 +7,7 @@ network.add_layer(3, Linear)
 network.add_layer(1, Sigmoid)
 
 network.set_inputs([-2, 0])
+network.set_desired_outputs([2.4])
 
 network.set_all_weights_to(1)
 network.forward_propagate()
