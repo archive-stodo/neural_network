@@ -11,6 +11,8 @@ class Network:
         self.add_input_layer(n_inputs)
         self.n_layers = 1
         self.last_layer = self.layers[self.n_layers - 1]
+        # learning rate
+        self.alpha = 0.1
 
     def add_input_layer(self, n_inputs):
         input_layer = Layer(n_inputs, n_inputs, Linear, True)
@@ -77,4 +79,17 @@ class Network:
                     error_term += next_layer_neuron.error_term * next_layer_neuron.weights[neuron_n] * neuron.compute_a_derivative()
 
                 neuron.error_term = error_term
+
+        # update weights - all hidden and outputs layers
+        for layer_n in range(1, self.n_layers - 1):
+            layer = self.layers[layer_n]
+            for neuron_n in range(layer.n_neurons):
+                neuron = layer.neurons[neuron_n]
+
+                for neuron_weight_n in range(neuron.n_inputs):
+                    # weight_delta what went through weight * error term on neuron in further layer * alpha
+                    weight_delta = neuron.error_term * self.layers[layer_n - 1].neurons[neuron_weight_n].a * self.alpha
+                    neuron.weights[neuron_weight_n] += weight_delta
+
+
 

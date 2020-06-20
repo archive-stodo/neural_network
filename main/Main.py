@@ -11,8 +11,9 @@ network.set_desired_outputs([2.4])
 
 network.set_all_weights_to(1)
 network.forward_propagate()
+print("outputs", network.get_outputs())
 
 network.backward_propagate()
-
+network.forward_propagate()
 
 print("outputs", network.get_outputs())
