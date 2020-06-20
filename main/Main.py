@@ -6,4 +6,7 @@ network.add_layer(3, Sigmoid)
 network.add_layer(3, Sigmoid)
 network.add_layer(1, Sigmoid)
 
+
+network.set_inputs([2, 1])
+
 print("works")

@@ -18,3 +18,10 @@ class Network:
         new_layer = Layer(n_neurons_previous_layer, n_neurons, f, is_input=False)
         self.layers.append(new_layer)
 
+
+    def set_inputs(self, inputs):
+        if len(inputs) != self.n_inputs:
+            raise Exception('wrong input size')
+
+        for neuron_n in range(len(inputs)):
+            self.layers[0].neurons[neuron_n] = inputs[neuron_n]
