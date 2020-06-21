@@ -13,10 +13,17 @@ class Neuron:
         self.desired_output = 0
 
     def compute_a(self):
-        self.a = self.f.value(self.z)
+        self.a = round(self.f.value(self.z), 6)
 
-    def compute_a_derivative(self):
-        return self.f.derivative(self.a)
+    def compute_z_derivative(self):
+        self.a = round(self.a, 6)
+        self.z = round(self.z, 6)
+        self.error_term = round(self.error_term, 6)
+        self.bias = round(self.bias, 6)
+        for weight_n in range(self.n_inputs):
+            self.weights[weight_n] = round(self.weights[weight_n], 6)
+
+        return self.f.derivative(self.z)
 
     def set_error_term(self, error_term):
         self.error_term = error_term

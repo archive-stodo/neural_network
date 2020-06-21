@@ -67,28 +67,28 @@ class Network:
 
     def backward_propagate(self):
         # last layer error term
-        [neuron.set_error_term( (neuron.desired_output - neuron.a) * neuron.compute_a_derivative() ) for neuron in self.last_layer.neurons]
+        [neuron.set_error_term( (neuron.desired_output - neuron.a) * neuron.compute_z_derivative() ) for neuron in self.last_layer.neurons]
 
         # propagate error backwards
         for layer_n in range(self.n_layers - 2, 0, -1):
-            print('processing layer n: ', layer_n)
+
             for neuron_n in range(self.layers[layer_n].n_neurons):
                 neuron = self.layers[layer_n].neurons[neuron_n]
                 error_term = 0
                 for next_layer_neuron in self.layers[layer_n + 1].neurons:
-                    error_term += next_layer_neuron.error_term * next_layer_neuron.weights[neuron_n] * neuron.compute_a_derivative()
+                    error_term += next_layer_neuron.error_term * next_layer_neuron.weights[neuron_n]
 
-                neuron.error_term = error_term
+                neuron.error_term = error_term * neuron.compute_z_derivative()
 
         # update weights - all hidden and outputs layers
-        for layer_n in range(1, self.n_layers - 1):
+        for layer_n in range(1, self.n_layers):
             layer = self.layers[layer_n]
             for neuron_n in range(layer.n_neurons):
                 neuron = layer.neurons[neuron_n]
-
+                neuron.bias += neuron.error_term * neuron.bias * self.alpha
                 for neuron_weight_n in range(neuron.n_inputs):
                     # weight_delta what went through weight * error term on neuron in further layer * alpha
-                    weight_delta = neuron.error_term * self.layers[layer_n - 1].neurons[neuron_weight_n].a * self.alpha
+                    weight_delta = neuron.error_term * self.layers[layer_n - 1].neurons[neuron_weight_n].z * self.alpha
                     neuron.weights[neuron_weight_n] += weight_delta
 
 
