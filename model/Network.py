@@ -5,14 +5,14 @@ from model.Neuron import Neuron
 
 class Network:
 
-    def __init__(self, n_inputs):
+    def __init__(self, n_inputs, alpha=0.1):
         self.n_inputs = n_inputs
         self.layers = []
         self.add_input_layer(n_inputs)
         self.n_layers = 1
         self.last_layer = self.layers[self.n_layers - 1]
         # learning rate
-        self.alpha = 0.1
+        self.alpha = alpha
 
     def add_input_layer(self, n_inputs):
         input_layer = Layer(n_inputs, n_inputs, Linear, True)
@@ -47,6 +47,9 @@ class Network:
     def set_all_weights_to(self, new_weight):
         [layer.set_all_weights_to(new_weight) for layer in self.layers]
 
+    def clip_length_of_all_numbers(self):
+        [layer.clip_length_of_all_numbers() for layer in self.layers]
+
     def forward_propagate(self):
         for layer_n in range(1, self.n_layers):
             layer_neuron_n = self.layers[layer_n].n_neurons
@@ -80,7 +83,7 @@ class Network:
 
                 neuron.error_term = error_term * neuron.compute_z_derivative()
 
-        # update weights - all hidden and outputs layers
+        # update weights - all hidden and output layers
         for layer_n in range(1, self.n_layers):
             layer = self.layers[layer_n]
             for neuron_n in range(layer.n_neurons):
@@ -91,5 +94,7 @@ class Network:
                     weight_delta = neuron.error_term * self.layers[layer_n - 1].neurons[neuron_weight_n].z * self.alpha
                     neuron.weights[neuron_weight_n] += weight_delta
 
+        # prevent precision errors
+        self.clip_length_of_all_numbers()
 
 

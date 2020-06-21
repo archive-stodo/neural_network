@@ -19,7 +19,7 @@ class TestNetworkBackwardPropagation(unittest.TestCase):
         y = iris.target
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True)
 
-        for epoch in range(10):
+        for epoch in range(100):
             for example_n in range(y_train.size):
                 network.set_inputs(X_train[example_n])
                 network.set_desired_outputs([ y_train[example_n] ])

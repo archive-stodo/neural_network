@@ -12,3 +12,6 @@ class Layer:
 
     def set_all_weights_to(self, new_weight):
         [neuron.set_all_weights_to(new_weight) for neuron in self.neurons]
+
+    def clip_length_of_all_numbers(self):
+        [neuron.clip_length_of_all_numbers() for neuron in self.neurons]
