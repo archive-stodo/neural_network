@@ -15,12 +15,12 @@ class Network:
         self.alpha = alpha
 
     def add_input_layer(self, n_inputs):
-        input_layer = Layer(n_inputs, n_inputs, Linear, True)
+        input_layer = Layer(n_inputs, n_inputs, Linear)
         self.layers.append(input_layer)
 
     def add_layer(self, n_neurons, f):
         n_neurons_previous_layer = self.layers[-1].n_neurons
-        new_layer = Layer(n_neurons_previous_layer, n_neurons, f, is_input=False)
+        new_layer = Layer(n_neurons_previous_layer, n_neurons, f)
         self.layers.append(new_layer)
         self.n_layers += 1
         self.last_layer = self.layers[self.n_layers - 1]

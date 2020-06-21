@@ -13,7 +13,7 @@ class Neuron:
         self.desired_output = 0
 
     def compute_a(self):
-        self.a = round(self.f.value(self.z), 6)
+        self.a = self.f.value(self.z)
 
     def compute_z_derivative(self):
         return self.f.derivative(self.z)
